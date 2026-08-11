@@ -8,10 +8,12 @@ The framework is intended for multisite settings where patient-level registry la
 
 - executable phenotype logic (`D0`-`D8`) and study code lists;
 - documented long-format aggregate input schema;
-- de-identified manuscript aggregate counts and summary outputs;
+- de-identified monthly aggregate counts used for the manuscript analyses;
 - synthetic demonstration data;
-- reproducible metrics for error, bias, temporal tracking, Lin CCC, rank stability, logical consistency, universal/minimax selection, leave-one-center-out transportability regret, and moving-block bootstrap rank uncertainty; and
+- reproducible code for error, bias, temporal tracking, Lin CCC, rank stability, logical consistency, universal/minimax selection, leave-one-center-out transportability regret, and moving-block bootstrap rank uncertainty; and
 - disclosure/anonymity guidance.
+
+The analysis script writes manuscript-style summary outputs from the released aggregate counts; patient-level EHR and registry records are not included.
 
 ## Repository layout
 
@@ -19,7 +21,9 @@ The framework is intended for multisite settings where patient-level registry la
 data/
   input_schema.yaml
   manuscript/
+    monthly_aggregate_counts.csv.gz
   synthetic/
+    synthetic_aggregate_counts.csv.gz
 docs/
 phenotype_specifications/
   phenotype_definitions.yaml
@@ -35,19 +39,29 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-python scripts/validate_input.py data/synthetic/synthetic_aggregate_counts.csv
+python scripts/validate_input.py data/synthetic/synthetic_aggregate_counts.csv.gz
 python scripts/run_aggregate_benchmark.py \
-  --input data/synthetic/synthetic_aggregate_counts.csv \
+  --input data/synthetic/synthetic_aggregate_counts.csv.gz \
   --output-dir example_outputs
 ```
 
 To reproduce the manuscript aggregate analyses from the released monthly counts:
 
 ```bash
+python scripts/validate_input.py data/manuscript/monthly_aggregate_counts.csv.gz
 python scripts/run_aggregate_benchmark.py \
-  --input data/manuscript/monthly_aggregate_counts.csv \
+  --input data/manuscript/monthly_aggregate_counts.csv.gz \
   --output-dir manuscript_outputs
 ```
+
+The analysis produces:
+
+- `metrics_by_center_definition.csv`
+- `logical_consistency_checks.csv`
+- `rank_stability.csv`
+- `selection_policies.csv`
+- `leave_one_center_out_regret.csv`
+- `bootstrap_rank_uncertainty.csv`
 
 ## Phenotype baseline and timing
 
