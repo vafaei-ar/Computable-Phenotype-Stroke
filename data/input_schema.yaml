@@ -1,0 +1,20 @@
+schema_name: aggregate_phenotype_benchmark_input
+schema_version: 1.0.0
+required_fields:
+  center_id: {type: string, description: "Anonymized site identifier."}
+  month: {type: string, format: "YYYY-MM", description: "Admission month used for both phenotype and registry counts."}
+  definition_id: {type: string, allowed_values: [D0,D1,D2,D3,D4,D5,D6,D7,D8]}
+  phenotype_count: {type: integer, minimum: 0}
+  registry_count: {type: integer, minimum: 0}
+  definition_version: {type: string}
+optional_fields:
+  ehr_completeness_flag: {type: string, allowed_values: [complete,partial,unavailable,unknown]}
+  registry_completeness_flag: {type: string, allowed_values: [complete,partial,unavailable,unknown]}
+  inpatient_volume: {type: integer, minimum: 0}
+  subgroup_name: {type: string}
+  subgroup_phenotype_count: {type: integer, minimum: 0}
+  subgroup_registry_count: {type: integer, minimum: 0}
+notes:
+  - "Phenotype and registry counts must use the same month convention."
+  - "The manuscript analysis uses admission month."
+  - "Counts are generated after local source-row deduplication; distinct readmissions are retained as separate hospitalization events."

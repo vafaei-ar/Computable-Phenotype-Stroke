@@ -1,0 +1,56 @@
+phenotype_set: ischemic_stroke_structured_definitions
+version: 1.0.0
+study_unit: eligible_inpatient_hospitalization
+baseline:
+  age_minimum_years: 18
+  encounter_type: inpatient_or_emergency_to_inpatient
+  length_of_stay_hours: ">24"
+  diagnosis:
+    icd9_patterns: ["433.x1", "434.x1"]
+    icd10_families: ["I63", "H34.1"]
+signals:
+  imaging_any:
+    definition: head CT or brain MRI
+    code_system: CPT
+    timing: two_days_before_admission_through_end_of_index_hospitalization
+  imaging_mri:
+    definition: brain MRI
+    code_system: CPT
+    timing: two_days_before_admission_through_end_of_index_hospitalization
+  imaging_ct:
+    definition: head CT
+    code_system: CPT
+    timing: two_days_before_admission_through_end_of_index_hospitalization
+  lipid_lab:
+    definition: lipid panel or cholesterol laboratory test
+    code_system: LOINC
+    timing: during_index_hospitalization
+  rehabilitation_assessment:
+    definition: physical, occupational, or speech rehabilitation assessment/service
+    code_system: CPT
+    timing: during_index_hospitalization
+definitions:
+  D0: {rule: "baseline", description: "ICD-only baseline"}
+  D1: {rule: "baseline AND imaging_any AND lipid_lab", description: "CT or MRI plus lipid laboratory testing"}
+  D2: {rule: "baseline AND imaging_any AND (lipid_lab OR rehabilitation_assessment)", description: "CT or MRI plus lipid laboratory testing or rehabilitation"}
+  D3: {rule: "baseline AND imaging_mri AND lipid_lab", description: "MRI plus lipid laboratory testing"}
+  D4: {rule: "baseline AND imaging_mri AND (lipid_lab OR rehabilitation_assessment)", description: "MRI plus lipid laboratory testing or rehabilitation"}
+  D5: {rule: "baseline AND imaging_any", description: "CT or MRI only"}
+  D6: {rule: "baseline AND imaging_mri AND lipid_lab AND rehabilitation_assessment", description: "MRI plus lipid laboratory testing plus rehabilitation"}
+  D7: {rule: "baseline AND imaging_mri", description: "MRI only"}
+  D8: {rule: "baseline AND imaging_ct AND lipid_lab", description: "CT plus lipid laboratory testing"}
+logical_consistency_checks:
+  - [D1, D5]
+  - [D3, D7]
+  - [D3, D1]
+  - [D4, D7]
+  - [D6, D3]
+  - [D6, D4]
+  - [D8, D1]
+  - [D2, D5]
+  - [D1, D2]
+  - [D3, D4]
+notes:
+  - "Code lists are provided in phenotype_specifications/code_lists/."
+  - "Local implementations should map equivalent site source fields to these code sets and retain the documented time windows."
+  - "Distinct readmissions are retained as separate hospitalization episodes after site-specific source-row deduplication."
