@@ -91,6 +91,11 @@ def policies(raw: pd.DataFrame, allowed: list[str], label: str):
     return policy,pd.DataFrame(rec)
 
 def run(raw: pd.DataFrame, output_dir: Path, center1: str = "1"):
+    if str(center1) not in set(raw.center_id):
+        matching = [c for c in raw.center_id.unique() if c.replace(" ", "").lower() in ("center1", "c1")]
+        if len(matching) != 1:
+            raise ValueError("Center 1 identifier not found; supply --center1 explicitly")
+        center1 = matching[0]
     output_dir.mkdir(parents=True,exist_ok=True)
     ratios(raw).to_csv(output_dir/"nested_feature_signal_ratios.csv",index=False)
     reports=[]
