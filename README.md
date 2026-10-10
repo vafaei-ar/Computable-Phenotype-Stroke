@@ -2,11 +2,11 @@
 
 Reproducible materials for **aggregate benchmarking of computable EHR phenotypes across health systems**, with hospitalized ischemic stroke as the demonstration case.
 
-The framework is intended for multisite settings where patient-level registry labels cannot be centralized. Each site executes the same phenotype definitions locally, aggregates counts by admission month, and shares only approved aggregate outputs. Central analysis produces a multidimensional phenotype transportability profile rather than a single score.
+The framework is intended for multisite settings where patient-level registry labels cannot be centralized. The participating sites received common phenotype criteria, clarified them through study discussions, adapted the rules to local EHR structures, and shared only approved monthly aggregate outputs. Central analysis produces a multidimensional phenotype transportability profile rather than a single score.
 
 ## What is included
 
-- executable phenotype logic (`D0`-`D8`) and study code lists;
+- common D0-D8 logical phenotype rules, reference code lists, and the separately documented historical Center 1 extraction profile;
 - documented long-format aggregate input schema;
 - de-identified monthly aggregate counts used for the manuscript analyses;
 - synthetic demonstration data;
@@ -65,7 +65,7 @@ The analysis produces:
 
 ## Phenotype baseline and timing
 
-The candidate cohort includes adults (age >=18 years) with an inpatient or emergency-to-inpatient hospitalization lasting >24 hours and an eligible ischemic-stroke ICD code. Imaging is captured from 2 days before admission through discharge; lipid/cholesterol testing and rehabilitation signals are captured during the hospitalization. See `docs/executable_phenotype_specification.md` and the code-list files for details.
+The shared study specification describes adult ischemic-stroke inpatient eligibility, the intended length-of-stay criterion, and imaging, lipid, and rehabilitation evidence. The study count convention is the first retained event per person, not every readmission. The documented historical Center 1 extraction differs in several operational details (calendar-day stay eligibility, no explicit adult-age filter in count generation, and CT/MRI evidence by same encounter or within an absolute two-day admission offset). See `docs/executable_phenotype_specification.md`, `docs/historical_center1_implementation.md`, and `docs/aggregation_window_provenance.md`. These files document the study as conducted; they are not a claim that original local extraction scripts from all four centers are publicly available.
 
 ## Interpretation
 

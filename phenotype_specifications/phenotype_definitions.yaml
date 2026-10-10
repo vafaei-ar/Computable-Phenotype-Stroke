@@ -1,6 +1,7 @@
 phenotype_set: ischemic_stroke_structured_definitions
 version: 1.0.0
-study_unit: eligible_inpatient_hospitalization
+documentation_revision: 2026-10-10
+study_unit: first_retained_stroke_event_per_person
 baseline:
   age_minimum_years: 18
   encounter_type: inpatient_or_emergency_to_inpatient
@@ -53,4 +54,6 @@ logical_consistency_checks:
 notes:
   - "Code lists are provided in phenotype_specifications/code_lists/."
   - "Local implementations should map equivalent site source fields to these code sets and retain the documented time windows."
-  - "Distinct readmissions are retained as separate hospitalization episodes after site-specific source-row deduplication."
+  - "The agreed study counting convention retains the first eligible event per person; repeated admissions are not counted as separate index events."
+  - "The baseline age and LOS fields describe the shared study protocol, not every detail of Center 1 historical implementation. See docs/historical_center1_implementation.md."
+  - "The historical Center 1 extraction did not enforce an explicit adult-age cutoff when generating monthly counts and used calendar-day boundary qualification and a different CT/MRI evidence window."
