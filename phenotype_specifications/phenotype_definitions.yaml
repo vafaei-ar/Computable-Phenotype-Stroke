@@ -1,5 +1,6 @@
 phenotype_set: ischemic_stroke_structured_definitions
-version: 1.1.0
+version: 1.0.0
+documentation_revision: 2026-10-10
 study_unit: first_retained_stroke_event_per_person
 baseline:
   age_minimum_years: 18
