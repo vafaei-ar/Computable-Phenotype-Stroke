@@ -1,8 +1,8 @@
-# Executable phenotype specification
+# Shared phenotype definitions and historical implementation profiles
 
 ## Baseline cohort
 
-Each candidate definition starts from hospitalized adults (age >=18 years) with an inpatient or emergency-to-inpatient encounter lasting more than 24 hours and an eligible ischemic-stroke diagnosis code. The study diagnosis families are ICD-9-CM 433.x1 and 434.x1 and ICD-10-CM I63 family and H34.1.
+The intended shared protocol for each candidate definition starts from hospitalized adults (age >=18 years) with an inpatient or emergency-to-inpatient encounter lasting more than 24 hours and an eligible ischemic-stroke diagnosis code. The study diagnosis families are ICD-9-CM 433.x1 and 434.x1 and ICD-10-CM I63 family and H34.1. These are common clinical rules, not an exact transcription of each site's original extraction script. See [historical Center 1 implementation](historical_center1_implementation.md) for the verified operational differences.
 
 ## Feature windows
 
@@ -26,7 +26,7 @@ Each candidate definition starts from hospitalized adults (age >=18 years) with 
 
 ## Episode handling
 
-The counted unit is an eligible inpatient hospitalization record after site-specific source-row deduplication. Distinct readmission hospitalization episodes are retained as separate events.
+The study used an agreed first-event-per-person convention: after local eligibility and source-row handling, the first retained qualifying stroke event was assigned to its admission month, and later readmissions for that person were not counted as additional index events. Center 1's first-event selection was verified from the original notebook; other centers applied the shared study protocol locally, and their original extraction scripts were not centrally collected.
 
 ## Code lists
 
@@ -34,4 +34,8 @@ The code-list CSV files in `phenotype_specifications/code_lists/` were extracted
 
 ## Aggregate export
 
-After local phenotype execution, convert monthly counts to the long-format schema in `data/input_schema.yaml` and run `scripts/run_aggregate_benchmark.py`.
+After local phenotype execution, convert monthly counts to the long-format schema in `data/input_schema.yaml` and run `scripts/run_aggregate_benchmark.py`. The repository provides logical phenotype rules and aggregate analysis code, not one executable local EHR extractor that can replace each site's source mappings.
+
+## Timing of the aggregation sensitivity
+
+Supplementary Table S3 uses center-anchored, consecutive two-quarter windows (`2QS`) in addition to calendar quarters and months. See [aggregation window provenance](aggregation_window_provenance.md) and `scripts/aggregation_sensitivity.py`.
