@@ -17,4 +17,4 @@ optional_fields:
 notes:
   - "Phenotype and registry counts must use the same month convention."
   - "The manuscript analysis uses admission month."
-  - "Counts are generated after local source-row deduplication; distinct readmissions are retained as separate hospitalization events."
+  - "The agreed study count convention retains each person's first qualifying event; repeated admissions are not counted separately."\n  - "Center 1's historical EHR and registry counting units were verified from the original notebook. Participating sites implemented the shared criteria locally, but other sites' extraction scripts were not centrally collected."
